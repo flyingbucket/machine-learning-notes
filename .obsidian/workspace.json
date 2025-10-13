@@ -11,10 +11,14 @@
             "id": "2ec716533bd4447a",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "特征工程.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "特征工程"
             }
           }
         ]
@@ -163,5 +167,7 @@
     }
   },
   "active": "2ec716533bd4447a",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "特征工程.md"
+  ]
 }
