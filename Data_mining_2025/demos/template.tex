@@ -454,10 +454,237 @@ PR 曲线反映了模型在不同阈值下的精确率与召回率的权衡关�
 \clearpage
 \chapter{第三次上机实验}
 \section{实验要求}
+
+1. 使用给定sklearn库中内置乳腺癌数据集，学习得到一个Fisher分类器
+2. 对测试样本进行分类
+3. 使用Python编程实现
+
 \section{数据分析与处理}
+
+本实验使用的是 \texttt{scikit-learn} 库提供的乳腺癌数据集。
+该数据集包含 569 个样本、30 个连续特征以及一个二分类标签（0 表示恶性，1 表示良性），
+数据字典中"data"和"target"分别给出了特征和对应的分类标签。
+
+将数据集按 8:2 的比例随机划分为训练集和测试集，
+
 \section{实验步骤与原理}
+
+本实验旨在基于乳腺癌数据集构建 Fisher 线性判别分类器，
+并对测试样本进行二分类评估。
+Fisher 判别的核心思想是寻找一个投影方向，
+使得不同类别在该方向上的类间距离最大、类内距离最小，从而实现最优线性可分。
+
+\subsection{实验原理}
+
+设原始数据为特征矩阵 $\mathbf{X}\in\mathbb{R}^{n\times d}$，标签向量为 $y$。
+Fisher 判别通过构造两类散度矩阵来刻画数据结构：
+
+\begin{itemize}
+    \item \textbf{类内散度矩阵（Within-Class Scatter）}
+    \[
+        \mathbf{S}_w=\sum_{k}\sum_{x_i\in C_k}(x_i-\mu_k)(x_i-\mu_k)^{T},
+    \]
+    其中 $\mu_k$ 为第 $k$ 类的均值。该矩阵衡量同一类别样本的紧凑程度。
+    
+    \item \textbf{类间散度矩阵（Between-Class Scatter）}
+    \[
+        \mathbf{S}_b=\sum_{k}n_k(\mu_k-\mu)(\mu_k-\mu)^{T},
+    \]
+    其中 $\mu$ 为全局均值，$n_k$ 为类别 $k$ 的样本数。该矩阵表示类别均值之间的分离程度。
+\end{itemize}
+
+Fisher 判别寻求一个最优投影方向 $w$，使得类间散度与类内散度之比最大，即：
+\[
+    w=\arg\max_{w}\frac{w^{T}\mathbf{S}_b w}{w^{T}\mathbf{S}_w w}.
+\]
+这一优化问题,利用拉格朗日乘子法，可转化为广义特征值问题：
+\[
+    \mathbf{S}_b w = \lambda \mathbf{S}_w w,
+\]
+从中选取对应最大特征值的特征向量作为最优判别方向。
+
+得到投影方向后，将训练样本投影到该方向，并计算各类别投影均值。类别之间的阈值取为相邻类别投影均值的中点，随后根据投影大小实现分类。
+
+\subsection{实验步骤}
+
+实验步骤如下：
+
+\begin{enumerate}
+    \item \textbf{数据加载与标注}：导入乳腺癌数据集，获取特征矩阵与标签向量。
+    
+    \item \textbf{数据划分}：采用随机划分方式，将数据按 8:2 的比例分为训练集与测试集。
+    
+    \item \textbf{计算散度矩阵}：对训练集分别计算类内散度矩阵 $\mathbf{S}_w$ 和类间散度矩阵 $\mathbf{S}_b$。
+    
+    \item \textbf{求解最优判别方向}：通过广义特征分解求得 Fisher 判别方向 $w$。
+    
+    \item \textbf{生成分类阈值}：将训练样本投影到 $w$ 上，根据各类别投影均值计算分类阈值。
+    
+    \item \textbf{模型预测}：将测试集样本投影到 $w$ 上，依据阈值进行类别判别。
+    
+    \item \textbf{模型评估}：计算预测精度，评价 Fisher 分类器在测试集上的分类性能。
+\end{enumerate}
+
+该流程完整实现了 Fisher 线性判别的训练与预测过程，验证了其在二分类任务中的有效性。
+
 \section{实验结论与分析}
+在完成 Fisher 线性判别分类器的训练与测试后，对测试集样本进行了分类评估。
+本实验采用准确率（Accuracy）与混淆矩阵（Confusion Matrix）作为主要性能指标。
+
+\subsection{分类准确率}
+在固定numpy随机种子为42的情况下，得到如下结果。
+
+分类准确率为：
+\[
+\text{Accuracy} = 97.37\%
+\]
+该结果表明 Fisher 判别在乳腺癌二分类任务中具有良好的判别能力，能够在一维投影空间中实现有效的类别分离。
+
+\subsection{混淆矩阵分析}
+
+为了进一步观察分类器在不同类别上的预测情况，绘制其混淆矩阵如下：
+
+\[
+\begin{pmatrix}
+44 & 3 \\
+0 & 67
+\end{pmatrix}
+\]
+
+其中：
+
+\begin{itemize}
+    \item 第一行表示真实标签为恶性（0）的样本，共 47 个，其中正确分类 44 个，误判为良性 3 个；
+    \item 第二行表示真实标签为良性（1）的样本，共 67 个，全部被正确分类。
+\end{itemize}
+
+从矩阵可以看出，分类器对良性样本的识别效果好（无误判），对恶性样本也能保持较高的识别率。整体来看，该 Fisher 分类器在测试集上表现稳定，具有较强的泛化能力。
+但是存在将恶性样本误判为良性样本的情况，从错误代价的角度考虑，仍有较大的改进空间.
+
 \section{实验代码}
+\begin{lstlisting}[language=Python]
+
+"""Fisher's Linear Discriminant Classifier Implementation"""
+
+import scipy
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from typing import List,Tuple
+
+def get_Sw(X: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """Coumpute Within-Class Scatter Matrix"""
+    labels = np.unique(y)
+    n_features = X.shape[1]
+    Sw = np.zeros((n_features, n_features))
+    for label in labels:
+        XOfLabel = X[y == label]
+        meanOfClass = np.mean(XOfLabel, axis=0)
+        diff = XOfLabel - meanOfClass
+        Sw += diff.T @ diff
+    return Sw
+
+
+def get_Sb(X: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """Compute Between-Class Scatter Matrix"""
+    overallMean = np.mean(X, axis=0)
+    labels = np.unique(y)
+    n_features = X.shape[1]
+    Sb = np.zeros((n_features, n_features))
+    for label in labels:
+        XOfLabel = X[y == label]
+        n_samplesOfLabel = XOfLabel.shape[0]
+        meanOfClass = np.mean(XOfLabel, axis=0)
+        meanDiff = (meanOfClass - overallMean).reshape(n_features, 1)
+        Sb += n_samplesOfLabel * (meanDiff @ meanDiff.T)
+    return Sb
+
+
+def solve_fisher_direction(X: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """Solve for Fisher's Linear Discriminant Direction"""
+    Sw = get_Sw(X, y)
+    Sb = get_Sb(X, y)
+
+    # Solve the generalized eigenvalue problem equation Sb*w = lambda*Sw*w
+    eigvals, eigvecs = scipy.linalg.eigh(Sb, Sw)
+    maxEigIndex = np.argmax(eigvals)
+    w = eigvecs[:, maxEigIndex]
+    return w
+
+
+def split_data(X: np.ndarray, y: np.ndarray, train_ratio: float = 0.8):
+    """Split data into training and testing sets"""
+    n_samples = X.shape[0]
+    indices = np.arange(n_samples)
+    np.random.shuffle(indices)
+
+    train_size = int(n_samples * train_ratio)
+    train_indices = indices[:train_size]
+    test_indices = indices[train_size:]
+
+    X_train = X[train_indices]
+    y_train = y[train_indices]
+    X_test = X[test_indices]
+    y_test = y[test_indices]
+
+    return X_train, y_train, X_test, y_test
+
+
+def train_fisher_classifier(X: np.ndarray, y: np.ndarray):
+    """Train Fisher Classifier"""
+    w = solve_fisher_direction(X, y)
+    projections = X @ w  # compute projection
+    labels = np.unique(y)
+    meanProjections = []
+    for label in labels:
+        meanProjections.append((label,np.mean(projections[y == label])))
+    sortedMeans = sorted(meanProjections,key=lambda x: x[1])
+    thresholds=[]
+    for i in range(len(sortedMeans)-1):
+        meanPrev=sortedMeans[i][1]
+        meanPost=sortedMeans[i+1][1]
+        thresholds.append((meanPrev+meanPost)/2)
+
+    return w,thresholds,sortedMeans
+
+
+def predict_fisher_classifier(X: np.ndarray, w: np.ndarray, thresholds: list,sortedMeans:List[Tuple[int,float]]) -> np.ndarray:
+    """Predict using Fisher Classifier"""
+    projections = X @ w
+    y_pred = np.zeros(projections.shape[0])
+    labels = [item[0] for item in sortedMeans]
+    for i, projection in enumerate(projections):
+        for j, threshold in enumerate(thresholds):
+            if projection < threshold:
+                y_pred[i] = labels[j]
+                break
+        else:
+            y_pred[i] = labels[-1]
+    return y_pred
+
+def evaluate_classifier(y_true: np.ndarray, y_pred: np.ndarray):
+    """Evaluate Classifier Accuracy"""
+    accuracy = np.mean(y_true == y_pred)
+    return accuracy
+
+
+
+
+if __name__ == "__main__":
+    np.random.seed(42)
+    
+    data = load_breast_cancer()
+    X = data["data"]
+    y = data["target"]
+
+    X_train, y_train, X_test, y_test = split_data(X, y)
+
+    w,thresholds,sortedMeans = train_fisher_classifier(X_train, y_train)
+
+    y_pred = predict_fisher_classifier(X_test, w, thresholds,sortedMeans)
+
+    accuracy = evaluate_classifier(y_test, y_pred)
+    print(f"Fisher Classifier Accuracy: {accuracy * 100:.2f}%")
+\end{lstlisting}
 \clearpage
 \chapter{第四次上机实验}
 \section{实验要求}
