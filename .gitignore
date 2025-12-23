@@ -3,3 +3,9 @@
 *.tar
 *.tar.gz
 *.tgz
+
+Data_mining_2025/demos/*
+!Data_mining_2025/demos/template.tex 
+!Data_mining_2025/demos/template.pdf
+
+
