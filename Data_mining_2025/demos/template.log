@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.30)  24 DEC 2025 00:57
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.30)  24 DEC 2025 01:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1551,9 +1551,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [27]
 Chapter 5.
 
-LaTeX Warning: Empty bibliography on input line 960.
-
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1565,24 +1562,82 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [28
 
 
-] (./template.aux)
+]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[29]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[30]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[31]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[32]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[33]
+
+LaTeX Warning: Empty bibliography on input line 1155.
+
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[34] (./template.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `template.out' has not changed.
-(rerunfilecheck)             Checksum: DB0C10A347D4169A2550994EA6462E35;6231.
+(rerunfilecheck)             Checksum: E45EAEAAA3298B3C52F39FE9E8C8A752;7205.
 Package logreq Info: Writing requests to 'template.run.xml'.
 \openout1 = `template.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27163 strings out of 468441
- 571029 string characters out of 5439576
+ 27192 strings out of 468441
+ 572070 string characters out of 5439576
  1787162 words of memory out of 5000000
- 55210 multiletter control sequences out of 15000+600000
+ 55239 multiletter control sequences out of 15000+600000
  640151 words of font info for 147 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  93i,12n,118p,697b,1307s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on template.xdv (29 pages, 477820 bytes).
+Output written on template.xdv (35 pages, 577648 bytes).
